@@ -1,0 +1,94 @@
+<!-- splash يظهر فوراً من CSS بدون JS -->
+<div id="splash" style="position:fixed;inset:0;background:linear-gradient(135deg,#0d2137,#1a3a5c);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999">
+  <div style="font-size:52px;margin-bottom:16px">🏫</div>
+  <div style="color:#fff;font-size:18px;font-weight:700;margin-bottom:8px">نظام تقييم الأداء الوظيفي</div>
+  <div style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:28px">جاري التحميل...</div>
+  <div style="width:180px;height:3px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden">
+    <div id="splash-bar" style="width:0%;height:100%;background:linear-gradient(90deg,#c8973a,#f0b429);border-radius:3px;transition:width 0.4s ease"></div>
+  </div>
+</div>
+
+<div id="school-screen">
+  <h1>🏫 نظام تقييم الأداء الوظيفي</h1>
+  <p>اختر مدرستك للمتابعة</p>
+  <div class="sc-cards" id="sc-cards"><div class="loading" style="color:rgba(255,255,255,0.6)">⏳ جاري التحميل...</div></div>
+</div>
+
+<div id="auth-screen" class="hidden">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="lc" id="auth-logo">🏫</div>
+      <h1 id="auth-sname">نظام التقييم</h1>
+      <p>تسجيل الدخول</p>
+    </div>
+    <div class="back-btn" id="back-to-schools">← اختيار مدرسة أخرى</div>
+    <div class="aerr" id="auth-err"></div>
+    <div class="fg"><label>رقم الهوية</label><input type="text" id="lid" placeholder="أدخل رقم الهوية"></div>
+    <div class="fg"><label>كلمة المرور</label><input type="password" id="lpw" placeholder="أدخل كلمة المرور"></div>
+    <label class="rem"><input type="checkbox" id="rem"> تذكرني</label>
+    <button class="btn-auth" id="btn-login">تسجيل الدخول</button>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="chpass-m">
+  <div class="md">
+    <div class="mh"><span class="mt">🔐 تغيير كلمة المرور</span></div>
+    <div class="mb">
+      <div class="al al-i">أول تسجيل دخول — يرجى تعيين كلمة مرور خاصة بك</div>
+      <div class="fi" style="margin-bottom:10px"><label>كلمة المرور الجديدة</label><input type="password" id="np1" placeholder="6 أحرف على الأقل"></div>
+      <div class="fi"><label>تأكيد كلمة المرور</label><input type="password" id="np2"></div>
+      <div class="aerr" id="cp-err" style="margin-top:10px"></div>
+    </div>
+    <div class="mf"><button class="btn bp" id="btn-change-pass">حفظ وتسجيل الدخول</button></div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="admin-bar" class="hidden admin-bar">
+    <span id="ab-msg">👁️ أنت تتصفح بحساب آخر</span>
+    <div class="admin-bar-btns">
+      <button class="btn bp bs" id="btn-return-admin">🔙 العودة لحساب الأدمن</button>
+    </div>
+  </div>
+  <!-- شريط الأرشيف -->
+  <div id="archive-bar" style="display:none;position:fixed;top:0;left:0;right:0;z-index:998;background:linear-gradient(135deg,#553c9a,#805ad5);color:#fff;padding:8px 16px;font-size:13px;font-weight:700;text-align:center;">
+    📦 وضع الأرشيف — <span id="archive-bar-label"></span> &nbsp;
+    <span id="btn-switch-active-year" style="cursor:pointer;background:rgba(255,255,255,0.2);padding:3px 12px;border-radius:20px;font-size:12px;">العودة للسنة النشطة ×</span>
+  </div>
+  <button class="mob-btn" id="btn-mob-sidebar">☰</button>
+  <div id="sidebar-overlay"></div>
+<div class="layout">
+    <div class="sidebar" id="sidebar">
+      <div class="sh">
+        <div class="sl" id="sb-logo">🏫</div>
+        <div><div class="st" id="sb-school">نظام التقييم</div><div class="ss" id="sb-dept"></div></div>
+      </div>
+      <div class="su">
+        <div class="un" id="sb-name">-</div>
+        <div class="ur" id="sb-role">-</div>
+        <div class="ud" id="sb-udept"></div>
+      </div>
+      <div class="snav" id="sb-nav"></div>
+      <div class="sf">
+        <div id="sb-year-box" style="margin-bottom:6px;display:none">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;letter-spacing:1px">السنة الدراسية</div>
+          <select id="sb-year-sel" style="width:100%;padding:6px 8px;border-radius:7px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-family:Cairo,sans-serif;font-size:12px;cursor:pointer"></select>
+        </div>
+        <div id="sb-sem-box" style="margin-bottom:8px;display:none">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;letter-spacing:1px">الفصل الدراسي</div>
+          <select id="sb-sem-sel" style="width:100%;padding:6px 8px;border-radius:7px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-family:Cairo,sans-serif;font-size:12px;cursor:pointer">
+            <option value="1">الفصل الأول</option>
+            <option value="2">الفصل الثاني</option>
+          </select>
+        </div>
+        <button class="btn-lo" id="btn-logout">🚪 تسجيل الخروج</button>
+      </div>
+    </div>
+    <div class="mc" id="main-content"><div id="page"></div></div>
+  </div>
+</div>
+<div id="modals"></div>
+
+
+
+<div id="toast-container" style="position:fixed;bottom:24px;left:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;"></div>

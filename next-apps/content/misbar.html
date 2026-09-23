@@ -1,0 +1,23 @@
+<div id="loginScreen">
+  <div class="loginCard">
+    <div class="brand"><div class="bubble-mark">أ</div><div><h1 style="font-size:18px;">مسبار</h1><p class="muted">تصحيح وتحليل الاختبارات</p></div></div>
+    <label>البريد الإلكتروني</label>
+    <input id="loginEmail" type="email" placeholder="admin@example.com">
+    <label>كلمة المرور</label>
+    <input id="loginPass" type="password" placeholder="••••••••">
+    <button class="btn" style="width:100%;margin-top:20px;" onclick="doLogin()">تسجيل الدخول</button>
+    <div id="loginError"></div>
+    <p class="muted" style="margin-top:16px;line-height:1.7;">أنشئ حساب الأدمن مرة واحدة من Authentication → Users في مشروع Supabase، ثم سجّل دخولك هنا.</p>
+  </div>
+</div>
+
+<div id="app">
+  <aside>
+    <div class="brand"><div class="bubble-mark">أ</div><div><h1 style="font-size:16px;">مسبار</h1></div></div>
+    <nav id="navList"></nav>
+    <button class="logout" onclick="doLogout()">تسجيل الخروج</button>
+  </aside>
+  <main id="mainView"></main>
+</div>
+
+<div class="toast" id="toast"></div>

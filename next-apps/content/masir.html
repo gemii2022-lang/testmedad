@@ -1,0 +1,239 @@
+<!-- ============ شاشة تسجيل الدخول ============ -->
+<div id="loginView">
+  <header class="site-header">
+    <div class="seal"></div>
+    <div class="school-name">نظام إدارة المدارس</div>
+    <div class="page-title">تسجيل الدخول</div>
+  </header>
+  <div class="wrap">
+    <div class="card">
+      <label for="userInput">اسم المستخدم</label>
+      <input type="text" id="userInput" placeholder="اسم مستخدم القسم، أو بريد الأدمن العام">
+      <label for="passInput">كلمة المرور</label>
+      <input type="password" id="passInput" placeholder="••••••••">
+      <button class="btn full gold" id="loginBtn">دخول</button>
+      <button type="button" class="btn full outline" id="forgotPasswordBtn" style="margin-top:10px">نسيت كلمة المرور؟</button>
+      <div class="alert error" id="loginError"></div>
+    </div>
+    <div class="foot-note">حسابات الأقسام تُنشأ من قِبل أدمن المدرسة العام</div>
+  </div>
+</div>
+
+<!-- ============ شاشة استعادة كلمة المرور ============ -->
+<div id="resetView" class="hidden">
+  <header class="site-header">
+    <div class="seal"></div>
+    <div class="school-name">نظام إدارة المدارس</div>
+    <div class="page-title">تعيين كلمة مرور جديدة</div>
+  </header>
+  <div class="wrap">
+    <div class="card">
+      <p style="margin:0 0 12px; color:var(--slate); font-size:13.5px">
+        أدخل كلمة المرور الجديدة لحسابك.
+      </p>
+      <label for="newPasswordInput">كلمة المرور الجديدة</label>
+      <input type="password" id="newPasswordInput" placeholder="••••••••">
+      <label for="newPasswordConfirmInput">تأكيد كلمة المرور</label>
+      <input type="password" id="newPasswordConfirmInput" placeholder="••••••••">
+      <button class="btn full gold" id="saveNewPasswordBtn">حفظ كلمة المرور</button>
+      <button type="button" class="btn full outline" id="backToLoginBtn" style="margin-top:10px">العودة لتسجيل الدخول</button>
+      <div class="alert error" id="resetError"></div>
+      <div class="alert success" id="resetSuccess"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ لوحة الأدمن العام ============ -->
+<div id="adminView" class="hidden">
+  <div class="topbar">
+    <div class="brand"><div class="seal-mini"></div><span>لوحة الأدمن العام</span></div>
+    <nav>
+      <a data-tab="schools" class="admin-tab active">المدارس</a>
+      <a data-tab="departments" class="admin-tab">الأقسام</a>
+      <button class="btn small gold" id="adminLogoutBtn">تسجيل الخروج</button>
+    </nav>
+  </div>
+
+  <div class="wrap wide" style="margin-top:24px">
+
+    <!-- تبويب المدارس -->
+    <div id="tab-schools">
+      <div class="card">
+        <h3 style="margin-bottom:14px">إضافة مدرسة جديدة</h3>
+        <label for="schoolName">اسم المدرسة</label>
+        <input type="text" id="schoolName" placeholder="مثال: مدارس مداد البيان الأهلية">
+        <label>شعار المدرسة</label>
+        <div class="file-drop" id="logoDrop">
+          <input type="file" id="logoFile" accept="image/*">
+          <div class="file-drop-text" id="logoDropText"><b>اضغط لاختيار الشعار</b></div>
+        </div>
+        <button class="btn full" id="addSchoolBtn">إضافة المدرسة</button>
+        <div class="alert error" id="schoolError"></div>
+        <div class="alert success" id="schoolSuccess">تمت إضافة المدرسة بنجاح.</div>
+      </div>
+      <h3 style="margin:10px 0 14px">المدارس الحالية</h3>
+      <div class="grid" id="schoolsGrid"></div>
+      <div class="empty-state" id="schoolsEmpty" style="display:none">لا توجد مدارس بعد</div>
+    </div>
+
+    <!-- تبويب الأقسام -->
+    <div id="tab-departments" class="hidden">
+      <div class="card">
+        <h3 style="margin-bottom:14px">إضافة قسم جديد</h3>
+        <label for="deptSchoolSelect">المدرسة</label>
+        <select id="deptSchoolSelect"></select>
+        <label for="deptName">اسم القسم</label>
+        <input type="text" id="deptName" placeholder="مثال: الابتدائي بنين">
+        <button class="btn full" id="addDeptBtn">إضافة القسم وتوليد بيانات الدخول</button>
+        <div class="alert error" id="deptError"></div>
+      </div>
+      <h3 style="margin:10px 0 14px">أقسام المدرسة المختارة</h3>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>اسم القسم</th><th>اسم المستخدم</th><th>إجراءات</th></tr></thead>
+          <tbody id="deptBody"></tbody>
+        </table>
+        <div class="empty-state" id="deptEmpty" style="display:none">لا توجد أقسام لهذه المدرسة بعد</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ لوحة القسم ============ -->
+<div id="deptView" class="hidden">
+  <div class="topbar">
+    <div class="brand"><div class="seal-mini"></div><span>حساب القسم</span></div>
+    <nav>
+      <a data-tab="employees" class="dept-tab active">قائمة الموظفين</a>
+      <a data-tab="sheet" class="dept-tab">المسير الشهري</a>
+      <button class="btn small gold" id="deptLogoutBtn">تسجيل الخروج</button>
+    </nav>
+  </div>
+
+  <div class="wrap wide" style="margin-top:24px">
+
+    <!-- تبويب الموظفين -->
+    <div id="tab-employees">
+      <div class="card">
+        <h3 style="margin-bottom:14px">إضافة موظف</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 16px">
+          <div><label for="empName">اسم الموظف</label><input type="text" id="empName" placeholder="الاسم الكامل"></div>
+          <div><label for="empJob">المسمى الوظيفي</label><input type="text" id="empJob" placeholder="مثال: معلم لغة عربية"></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 16px">
+          <div><label for="empStart">تاريخ المباشرة</label><input type="date" id="empStart"></div>
+          <div><label for="empEmail">البريد الإلكتروني (لإرسال المسير له)</label><input type="text" id="empEmail" placeholder="teacher@example.com"></div>
+        </div>
+        <button class="btn full" id="addEmpBtn">إضافة الموظف</button>
+        <div class="alert error" id="empError"></div>
+      </div>
+      <h3 style="margin:10px 0 14px">قائمة الموظفين</h3>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>م</th><th>اسم الموظف</th><th>المسمى الوظيفي</th><th>تاريخ المباشرة</th><th>البريد الإلكتروني</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+          <tbody id="empBody"></tbody>
+        </table>
+        <div class="empty-state" id="empEmpty" style="display:none">لا يوجد موظفون بعد</div>
+      </div>
+    </div>
+
+    <!-- تبويب المسير -->
+    <div id="tab-sheet" class="hidden">
+      <div class="toolbar">
+        <label style="margin:0">الشهر:</label>
+        <input type="month" id="monthPicker">
+        <button class="btn small outline" id="loadSheetBtn">تحميل / تحديث</button>
+        <button class="btn small outline" id="exportPdfBtn">تصدير / طباعة PDF</button>
+        <label class="checkbox-row" style="margin:0 0 0 8px; white-space:nowrap; font-size:12px;">
+          <input type="checkbox" id="sheetShowStartDate" checked aria-label="إظهار تاريخ المباشرة في المسير المجمع">
+          <span>إظهار تاريخ المباشرة في المسير المجمع</span>
+        </label>
+        <button class="btn small gold" id="saveAllBtn" style="margin-inline-start:auto">حفظ الكل</button>
+      </div>
+      <div class="alert error" id="sheetError"></div>
+      <div class="alert success" id="sheetSuccess">تم حفظ المسير بنجاح.</div>
+      <div class="alert error" id="lockBanner" style="font-weight:700">🔒 هذا الشهر مقفل من الإدارة العامة — لا يمكن التعديل أو الحفظ.</div>
+      <div class="sheet-scroll-top" id="sheetScrollTop" aria-label="شريط تمرير الأعمدة">
+        <div class="sheet-scroll-top-inner" id="sheetScrollTopInner"></div>
+      </div>
+      <div class="table-card" id="sheetTableCard">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2">م</th><th rowspan="2">اسم الموظف</th><th rowspan="2">المسمى الوظيفي</th><th rowspan="2">تاريخ المباشرة</th>
+              <th colspan="3" class="group-head">عدد أيام الغياب</th>
+              <th rowspan="2">تاريخ الغياب<br>(ميلادي)</th>
+              <th rowspan="2">عدد دقائق<br>التأخير</th>
+              <th rowspan="2">عدد دقائق<br>الانصراف المبكر</th>
+              <th rowspan="2">عدد أيام<br>عدم البصمة</th>
+              <th rowspan="2">عدد أيام<br>الاستئذان</th>
+              <th rowspan="2">حصص إضافية</th>
+              <th rowspan="2">توقيع المعلم<br>بالعلم</th>
+              <th rowspan="2">ملاحظات</th>
+              <th rowspan="2">إرسال للموظف</th>
+            </tr>
+            <tr><th class="group-head">بعذر</th><th class="group-head">بدون عذر</th><th class="group-head">مجموع</th></tr>
+          </thead>
+          <tbody id="sheetBody"></tbody>
+        </table>
+        <div class="empty-state" id="sheetEmpty" style="display:none">لا يوجد موظفون بعد — أضيفوهم أولًا من "قائمة الموظفين"</div>
+      </div>
+      <button class="btn full gold" id="saveAllBtn2" style="margin-top:16px">حفظ الكل</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- منطقة الطباعة (تظهر فقط عند الطباعة/تصدير PDF) -->
+<div id="printArea"></div>
+
+<!-- نافذة بيانات دخول القسم الجديد -->
+<div class="modal-bg" id="credModal">
+  <div class="modal">
+    <h3>تم إنشاء القسم بنجاح</h3>
+    <p style="color:var(--slate); font-size:13.5px">احفظوا هذه البيانات الآن وسلّموها للقسم — لن تظهر كلمة المرور مرة أخرى.</p>
+    <div class="cred-box">
+      <div class="row"><span>اسم المستخدم:</span><b id="credUser"></b></div>
+      <div class="row"><span>كلمة المرور:</span><b id="credPass"></b></div>
+    </div>
+    <button class="btn full gold" id="closeModalBtn" style="margin-top:16px">تم، أغلق النافذة</button>
+  </div>
+</div>
+
+<!-- نافذة اختيار الفترة لتقرير الموظف -->
+<div class="modal-bg" id="empReportModal">
+  <div class="modal">
+    <h3 id="empReportTitle">تقرير موظف</h3>
+    <label for="repFromMonth">من شهر</label>
+    <input type="month" id="repFromMonth">
+    <label for="repToMonth">إلى شهر</label>
+    <input type="month" id="repToMonth">
+    <div class="checkbox-row" style="margin-top:12px">
+      <input type="checkbox" id="repAllMonths">
+      <label for="repAllMonths">كل الشهور (بدون تحديد فترة)</label>
+    </div>
+    <div class="checkbox-row" style="margin-top:10px">
+      <input type="checkbox" id="repShowStartDate" checked>
+      <label for="repShowStartDate">إظهار تاريخ المباشرة في التقرير</label>
+    </div>
+    <button class="btn full gold" id="generateEmpReportBtn" style="margin-top:16px">إنشاء وطباعة التقرير</button>
+    <button class="btn full outline" id="closeEmpReportModalBtn" style="margin-top:8px">إلغاء</button>
+    <div class="alert error" id="empReportError"></div>
+  </div>
+</div>
+
+<!-- نافذة قفل/فتح الأشهر لقسم معيّن -->
+<div class="modal-bg" id="monthLockModal">
+  <div class="modal">
+    <h3 id="lockModalTitle">قفل/فتح الأشهر</h3>
+    <label for="lockMonthPicker">الشهر</label>
+    <input type="month" id="lockMonthPicker">
+    <p style="margin:14px 0 4px; font-size:13.5px">
+      الحالة الحالية: <b id="lockStatusText" style="color:var(--slate)">...</b>
+    </p>
+    <button class="btn full gold" id="toggleLockBtn" style="margin-top:8px">...</button>
+    <button class="btn full outline" id="closeLockModalBtn" style="margin-top:8px">إغلاق</button>
+    <div class="alert error" id="lockError"></div>
+  </div>
+</div>

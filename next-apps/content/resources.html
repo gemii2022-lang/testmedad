@@ -1,0 +1,296 @@
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-title">نظام الإقرار الإلكتروني</div>
+    <div class="header-sub" id="site-subtitle">مداد البيان المحدودة</div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('teacher',this)">📝 نموذج المعلم</button>
+    <button class="nav-tab" onclick="showPage('admin',this)">🔧 لوحة الأدمن</button>
+  </div>
+</div>
+
+<!-- ========== TEACHER PAGE ========== -->
+<div class="page active" id="page-teacher">
+  <div id="teacher-alert" class="alert"></div>
+  <div id="teacher-no-school" style="display:none" class="card" style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:12px">🏫</div>
+    <div style="font-weight:700;color:var(--gray)">الرابط غير صحيح — يرجى التواصل مع المدرسة</div>
+  </div>
+  <div id="teacher-form-wrap">
+    <div class="card">
+      <div class="card-title"><span>👤</span> بيانات الموظف / الموظفة</div>
+      <div id="school-display" style="display:none;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:12px;background:var(--cream-dark);border-radius:10px;padding:12px 14px">
+          <img id="school-logo-img" src="" alt="" style="width:52px;height:52px;object-fit:contain;border-radius:8px;display:none">
+          <div style="font-weight:800;color:var(--green-dark);font-size:1rem" id="school-display-name"></div>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>الاسم بالكامل *</label>
+          <input type="text" id="t-name" placeholder="أدخل اسمك الرباعي كاملاً">
+        </div>
+        <div class="form-group">
+          <label>رقم الهوية الوطنية *</label>
+          <input type="text" id="t-id" placeholder="10 أرقام" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+        </div>
+        <div class="form-group full">
+          <label>صورة الهوية الوطنية *</label>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <img id="id-image-preview" src="" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid var(--border);display:none;background:white">
+            <div style="flex:1">
+              <input type="file" id="t-id-image-file" accept="image/*" onchange="previewIdImage(this)" style="display:none">
+              <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('t-id-image-file').click()">📷 رفع صورة الهوية</button>
+              <button type="button" class="btn btn-sm btn-gray" onclick="clearIdImage()" style="margin-right:8px">✕ إزالة</button>
+            </div>
+          </div>
+          <input type="hidden" id="t-id-image-data">
+          <div style="font-size:.78rem;color:var(--gray);margin-top:3px">ارفع صورة واضحة للهوية الوطنية (أمامية)</div>
+        </div>
+        <div class="form-group">
+          <label>رقم الجوال *</label>
+          <input type="tel" id="t-phone" placeholder="05xxxxxxxx" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'').substring(0,10)">
+        </div>
+        <div class="form-group full">
+          <label>البريد الإلكتروني *</label>
+          <input type="email" id="t-email" placeholder="example@email.com">
+        </div>
+        <div class="form-group full">
+          <label>العنوان الوطني *</label>
+          <input type="text" id="t-address" placeholder="العنوان الوطني المختصر مثال: AAAA1234">
+        </div>
+        <div class="form-group full">
+          <label>رقم الآيبان *</label>
+          <div style="position:relative;direction:ltr">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:800;color:var(--green-dark);font-size:.95rem;pointer-events:none">SA</span>
+            <input type="text" id="t-iban" placeholder="22 رقماً" maxlength="22" style="padding-left:38px;text-align:left;direction:ltr" oninput="this.value=this.value.replace(/[^0-9]/g,'').substring(0,22)">
+          </div>
+          <div style="font-size:.78rem;color:var(--gray);margin-top:3px">أدخل 22 رقماً بعد SA — مثال: SA12 3456 7890 1234 5678 9012</div>
+        </div>
+      </div>
+    </div>
+    <div class="decl-box">
+      <div class="decl-title">🛡️ الإقرار والتعهد</div>
+      <div class="decl-text" id="declaration-display">أُقرّ أنا المعلم الموضّحة بياناته أعلاه بصحة جميع البيانات المُدخَلة، وأتعهد بأن <strong>رقم الجوال والبريد الإلكتروني</strong> المُدخَلَين هما وسيلة التواصل المعتمدة والرسمية لشخصي، وأنهما يُمثِّلان <strong>عنوان مراسلاتي الرسمي</strong> مع شركة <strong>مداد البيان المحدودة</strong>.</div>
+    </div>
+    <div class="check-row" onclick="document.getElementById('t-agree').checked=!document.getElementById('t-agree').checked">
+      <input type="checkbox" id="t-agree" onclick="event.stopPropagation()">
+      <label onclick="event.preventDefault()">أقرّ بصحة البيانات أعلاه وأتحمّل المسؤولية القانونية عنها، وأوافق على اعتماد بيانات التواصل المُدخَلة وسيلةً رسميةً للمراسلة</label>
+    </div>
+    <button class="btn btn-primary" id="submit-btn" onclick="submitTeacher()">✅ تسجيل البيانات والإقرار</button>
+  </div>
+</div>
+
+<!-- ========== ADMIN PAGE ========== -->
+<div class="page" id="page-admin">
+
+  <!-- Loading -->
+  <div id="admin-loading" style="display:none;text-align:center;padding:60px 20px">
+    <span class="spinner" style="width:36px;height:36px;border-width:4px"></span>
+    <div style="margin-top:16px;color:var(--gray);font-size:.95rem">جاري التحقق...</div>
+  </div>
+
+  <!-- First-time setup -->
+  <div id="admin-setup" class="card" style="max-width:420px;margin:40px auto;display:none">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:3rem">🔐</div>
+      <div style="font-size:1.2rem;font-weight:800;color:var(--green-dark);margin-top:8px">إعداد أول مرة</div>
+      <div style="font-size:.88rem;color:var(--gray);margin-top:5px">حدد كلمة مرور لحساب الأدمن</div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>كلمة المرور الجديدة</label>
+      <input type="password" id="setup-pass1" placeholder="6 أحرف على الأقل">
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>تأكيد كلمة المرور</label>
+      <input type="password" id="setup-pass2" placeholder="أعد الكتابة" onkeyup="if(event.key==='Enter')createAdminPassword()">
+    </div>
+    <div id="setup-error" class="alert alert-error"></div>
+    <button class="btn btn-primary" onclick="createAdminPassword()">✅ تعيين كلمة المرور والدخول</button>
+  </div>
+
+  <!-- Login -->
+  <div id="admin-login" class="card" style="max-width:400px;margin:40px auto;display:none">
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="font-size:3rem">🔐</div>
+      <div style="font-size:1.2rem;font-weight:800;color:var(--green-dark);margin-top:8px">دخول الأدمن</div>
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>كلمة المرور</label>
+      <input type="password" id="admin-pass" placeholder="أدخل كلمة المرور" onkeyup="if(event.key==='Enter')adminLogin()">
+    </div>
+    <div id="login-error" class="alert alert-error"></div>
+    <button class="btn btn-primary" onclick="adminLogin()">دخول</button>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="admin-dash" style="display:none">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="showInnerTab('schools',this)">🏫 المدارس</button>
+      <button class="inner-tab" onclick="showInnerTab('records',this)">📋 السجلات</button>
+      <button class="inner-tab" onclick="showInnerTab('account',this)">⚙️ الحساب</button>
+    </div>
+
+    <!-- TAB: SCHOOLS -->
+    <div id="itab-schools">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div style="font-weight:800;font-size:1.05rem;color:var(--green-dark)">المدارس المضافة</div>
+        <button class="btn btn-gold btn-sm" onclick="openSchoolModal(null)">➕ إضافة مدرسة</button>
+      </div>
+      <div id="schools-list" class="school-list">
+        <div class="loading">جاري التحميل... <span class="spinner"></span></div>
+      </div>
+    </div>
+
+    <!-- TAB: RECORDS -->
+    <div id="itab-records" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-weight:800;font-size:1.05rem;color:var(--green-dark)">📋 سجل الإقرارات</div>
+          <div style="font-size:.82rem;color:var(--gray);margin-top:3px">عرض إجمالي أو حسب مدرسة</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <select id="filter-school" onchange="filterRecords()" style="min-width:160px;padding:8px 12px">
+            <option value="">كل المدارس</option>
+          </select>
+          <button class="btn btn-green btn-sm" onclick="exportExcel()">📊 Excel</button>
+          <button class="btn btn-outline btn-sm" onclick="loadAllRecords()">🔄 تحديث</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="stat-total">0</div><div class="stat-label">إجمالي الإقرارات</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-today">0</div><div class="stat-label">اليوم</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-week">0</div><div class="stat-label">هذا الأسبوع</div></div>
+      </div>
+
+      <div id="admin-alert" class="alert"></div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>الاسم</th><th>رقم الهوية</th><th>صورة الهوية</th><th>الجوال</th>
+                <th>البريد الإلكتروني</th><th>العنوان الوطني</th><th>الآيبان</th><th>المدرسة</th><th>التاريخ</th><th>طباعة</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr><td colspan="11" class="loading">جاري التحميل... <span class="spinner"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ACCOUNT -->
+    <div id="itab-account" style="display:none">
+      <div class="card">
+        <div class="card-title"><span>🔗</span> رابط الموقع</div>
+        <p style="font-size:.85rem;color:var(--gray);margin-bottom:12px">أدخل الرابط الأساسي للموقع عشان يتوليد رابط كل مدرسة صح. مثال: <code>https://username.github.io/eqrar/</code></p>
+        <div class="form-group" style="margin-bottom:10px">
+          <label>رابط الموقع</label>
+          <input type="text" id="site-base-url" placeholder="https://..." dir="ltr">
+        </div>
+        <div id="url-alert" class="alert"></div>
+        <button class="btn btn-gold btn-sm" onclick="saveSiteUrl()" style="margin-bottom:0">💾 حفظ الرابط</button>
+      </div>
+      <div class="card">
+        <div class="card-title"><span>🔑</span> تغيير كلمة المرور</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>كلمة المرور الجديدة</label>
+            <input type="password" id="new-pass1" placeholder="6 أحرف على الأقل">
+          </div>
+          <div class="form-group">
+            <label>تأكيد كلمة المرور</label>
+            <input type="password" id="new-pass2" placeholder="أعد الكتابة">
+          </div>
+        </div>
+        <div id="pass-alert" class="alert" style="margin-top:10px"></div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn btn-gold" onclick="changePassword()">🔑 تغيير كلمة المرور</button>
+          <button class="btn btn-gray" style="margin-right:auto" onclick="adminLogout()">تسجيل خروج</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHOOL MODAL -->
+<div class="modal-overlay" id="school-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="school-modal-title">إضافة مدرسة</div>
+      <button class="modal-close" onclick="closeSchoolModal()">✕</button>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>اسم المدرسة / الجهة *</label>
+      <input type="text" id="modal-school-name" placeholder="مثال: مدرسة النور الابتدائية">
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>شعار المدرسة (اختياري)</label>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <img id="logo-preview" src="" alt="" style="width:64px;height:64px;object-fit:contain;border-radius:10px;border:2px solid var(--border);display:none;background:white;padding:4px">
+        <div style="flex:1">
+          <input type="file" id="modal-logo-file" accept="image/*" onchange="previewLogo(this)" style="display:none">
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('modal-logo-file').click()">📷 رفع شعار</button>
+          <button class="btn btn-sm btn-gray" onclick="clearLogo()" style="margin-right:8px">✕ إزالة</button>
+        </div>
+      </div>
+      <input type="hidden" id="modal-logo-data">
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>نص الإقرار *</label>
+      <textarea id="modal-decl-text" rows="6">أُقرّ أنا الموظف/الموظفة الموضّحة بياناته أعلاه بصحة جميع البيانات المُدخَلة، وأتعهد بأن رقم الجوال والبريد الإلكتروني المُدخَلَين هما وسيلة التواصل المعتمدة والرسمية لشخصي، وأنهما يُمثِّلان عنوان مراسلاتي الرسمي مع شركة مداد البيان المحدودة.</textarea>
+    </div>
+    <div id="school-modal-alert" class="alert alert-error"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-outline btn-sm" onclick="closeSchoolModal()">إلغاء</button>
+      <button class="btn btn-gold" onclick="saveSchool()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- QR MODAL -->
+<div class="modal-overlay" id="qr-modal">
+  <div class="modal" style="max-width:360px;text-align:center">
+    <div class="modal-header">
+      <div class="modal-title">📲 باركود QR</div>
+      <button class="modal-close" onclick="document.getElementById('qr-modal').classList.remove('show')">✕</button>
+    </div>
+    <div id="qr-school-name" style="font-weight:800;font-size:1rem;color:var(--green-dark);margin-bottom:16px"></div>
+    <div id="qr-container" style="display:flex;justify-content:center;margin-bottom:16px"></div>
+    <div style="font-size:.82rem;color:var(--gray);margin-bottom:16px">امسح الباركود بكاميرا الجوال للدخول للنموذج</div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-sm btn-outline" onclick="document.getElementById('qr-modal').classList.remove('show')">إغلاق</button>
+      <button class="btn btn-sm btn-gold" onclick="downloadQR()">⬇️ تحميل</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRINT MODAL -->
+<div class="modal-overlay" id="print-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🖨️ معاينة الإقرار</div>
+      <button class="modal-close" onclick="document.getElementById('print-modal').classList.remove('show')">✕</button>
+    </div>
+    <div id="modal-print-content"></div>
+    <div style="display:flex;gap:10px;margin-top:14px;justify-content:flex-end">
+      <button class="btn btn-sm btn-outline" onclick="document.getElementById('print-modal').classList.remove('show')">إغلاق</button>
+      <button class="btn btn-sm btn-print" onclick="doPrint()">🖨️ طباعة</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal" style="text-align:center;max-width:400px">
+    <div style="font-size:4rem;margin-bottom:14px">✅</div>
+    <div style="font-size:1.3rem;font-weight:800;color:var(--green-dark);margin-bottom:8px">تم تسجيل إقرارك بنجاح</div>
+    <div style="color:var(--gray);margin-bottom:22px;line-height:1.8">شكراً لك. تم حفظ بياناتك وإقرارك في النظام.</div>
+    <button class="btn btn-primary" onclick="document.getElementById('success-modal').classList.remove('show')" style="max-width:180px;margin:0 auto">حسناً</button>
+  </div>
+</div>
